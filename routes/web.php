@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MascotaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,3 +21,10 @@ Route::get('/', function () {
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
+
+/** 
+ * Route::get('mascota', [MascotaController::class, 'index']);
+ * Route::get('mascota/create', [MascotaController::class, 'create']);
+ * Route::post('mascota', [MascotaController::class, 'store']);
+*/
+Route::resource('mascota', MascotaController::class);
