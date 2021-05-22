@@ -9,7 +9,7 @@
 <body>
     <h1>Crear nuevo registro</h1>
 
-    <form action="/mascota" method="POST">
+    <form action="{{ route('mascota.store') }}" method="POST">
     @csrf
         <label for ="nombreM">Nombre de mascota: </label>
         <input type="text" name="nombreM">
@@ -20,7 +20,7 @@
         <br>
         <br>
             <label for ="fecha">Ultima vez visto:</label>
-            <input type="date" name="fecha">
+            <input type="date" name="fecha" id="fecha">
         <br>
         <br>
             <label for ="raza">Raza: </label>

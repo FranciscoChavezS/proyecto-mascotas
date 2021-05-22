@@ -24,7 +24,7 @@ class CreateMascotasTable extends Migration
 
         });
     }
-
+    
     /**
      * Reverse the migrations.
      *

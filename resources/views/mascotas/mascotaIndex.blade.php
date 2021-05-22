@@ -7,7 +7,7 @@
     <title>Mascotas</title>
 </head>
 <body>
-    <h1>Registro de mascotas</h1>
+    <h1>listado de mascotas</h1>
 
     <table border="1">
         <thead>
@@ -24,7 +24,11 @@
             @foreach ($mascotas as $mascota)
                 <tr>
                     <td>{{ $mascota->id }}</td>
-                    <td>{{ $mascota->nombreM }}</td>
+                    <td>
+                        <a href="{{ route('mascota.show', $mascota) }}">
+                            {{ $mascota->nombreM }}
+                        </a>
+                    </td>
                     <td>{{ $mascota->foto }}</td>
                     <td>{{ $mascota->fecha }}</td>
                     <td>{{ $mascota->raza }}</td>

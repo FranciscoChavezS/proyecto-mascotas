@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Mascota extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['nombreM', 'foto', 'fecha', 'raza', 'comentario'];
 }

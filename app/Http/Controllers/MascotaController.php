@@ -37,13 +37,19 @@ class MascotaController extends Controller
      */
     public function store(Request $request)
     {
+        /*
+        metodo crear registro
+        
         $mascota = new Mascota();
         $mascota->nombreM = $request->nombreM;
         $mascota->foto = $request->foto;
-        $mascota->fecha = $request->foto;
+        $mascota->fecha = $request->fecha;
         $mascota->raza = $request->raza;
         $mascota->comentario = $request->comentario;
         $mascota->save();
+        */ 
+        
+        Mascota::create($request->all());
 
         return redirect('/mascota');
     }
@@ -54,9 +60,10 @@ class MascotaController extends Controller
      * @param  \App\Models\Mascota  $mascota
      * @return \Illuminate\Http\Response
      */
-    public function show(Mascota $mascota)
+    public function show($id)
     {
-        //
+        $mascota = Mascota::find($id);
+        return view('mascotas.mascotaShow', compact('mascota'));
     }
 
     /**
