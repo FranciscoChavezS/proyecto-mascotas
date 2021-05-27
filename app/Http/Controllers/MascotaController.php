@@ -37,9 +37,7 @@ class MascotaController extends Controller
      */
     public function store(Request $request)
     {
-        /*
-        metodo crear registro
-        
+        //metodo crear registro
         $mascota = new Mascota();
         $mascota->nombreM = $request->nombreM;
         $mascota->foto = $request->foto;
@@ -47,11 +45,13 @@ class MascotaController extends Controller
         $mascota->raza = $request->raza;
         $mascota->comentario = $request->comentario;
         $mascota->save();
-        */ 
-        
-        Mascota::create($request->all());
 
-        return redirect('/mascota');
+        if($request->hasFile('foto')){
+           $mascota['foto']=$request->file('foto')->store('uploads','public');
+        }
+
+        //Mascota::insert($request->all());
+        return redirect()->route('mascota.index')->with('mensaje','Mascota agregada con éxito');
     }
 
     /**
@@ -72,9 +72,10 @@ class MascotaController extends Controller
      * @param  \App\Models\Mascota  $mascota
      * @return \Illuminate\Http\Response
      */
-    public function edit(Mascota $mascota)
+    public function edit($id)
     {
-        //
+        $mascota = Mascota::findOrFail($id);
+        return view('mascotas.mascotaForm', compact('mascota'));
     }
 
     /**
@@ -84,9 +85,21 @@ class MascotaController extends Controller
      * @param  \App\Models\Mascota  $mascota
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Mascota $mascota)
+    public function update(Request $request, $id)
     {
-        //
+        /*$mascota->nombreM = $request->nombreM;
+        $mascota->foto = $request->foto;
+        $mascota->fecha = $request->fecha;
+        $mascota->raza = $request->raza;
+        $mascota->comentario = $request->comentario;
+        $mascota->save();
+        */
+
+        $mascota = request()->except(['_token','_method']);
+        Mascota::where('id','=',$id)->update($mascota);
+
+        $mascota = Mascota::findOrFail($id);
+        return redirect()->route('mascota.show', $mascota);
     }
 
     /**
@@ -95,8 +108,9 @@ class MascotaController extends Controller
      * @param  \App\Models\Mascota  $mascota
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Mascota $mascota)
+    public function destroy($id)
     {
-        //
+        Mascota::destroy($id);
+        return redirect()->route('mascota.index')->with('mensaje','Registro eliminado');
     }
 }

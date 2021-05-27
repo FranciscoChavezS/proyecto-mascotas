@@ -8,6 +8,9 @@
 </head>
 <body>
     <h1>Muestra una mascota</h1>
+    <p>
+        <a href="{{ route('mascota.index') }}">Listado de mascotas</a>
+    </p>
 
     <table border="1">
         <thead>
@@ -31,5 +34,11 @@
             </tr>
         </tbody>
     </table>
+    <form action="{{ route('mascota.destroy', $mascota) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <br>
+        <input type="submit" value="Eliminar registro">
+    </form>
 </body>
 </html>

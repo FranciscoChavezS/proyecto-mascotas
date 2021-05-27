@@ -9,6 +9,12 @@
 <body>
     <h1>listado de mascotas</h1>
 
+    @if(Session::has('mensaje'))
+        {{ Session::get('mensaje') }}
+    @endif
+    <p>
+        <a href="{{ route('mascota.create') }}">Agregar resgistro</a>
+    </p>
     <table border="1">
         <thead>
             <tr>
@@ -18,6 +24,7 @@
                 <th>Fecha</th> 
                 <th>Raza</th>
                 <th>comentario</th> 
+                <th>Modificar</th>
             </tr>  
         </thead>
         <tbody>
@@ -29,10 +36,15 @@
                             {{ $mascota->nombreM }}
                         </a>
                     </td>
-                    <td>{{ $mascota->foto }}</td>
+                    <td>
+                        <img src="{{ asset('storage').'/'.$mascota->foto }}">
+                    </td>
                     <td>{{ $mascota->fecha }}</td>
                     <td>{{ $mascota->raza }}</td>
                     <td>{{ $mascota->comentario }}</td>
+                    <td>
+                        <a href="{{ route('mascota.edit', $mascota) }}">Editar</a>
+                    </td>
                 </tr>
             @endforeach
         </tbody>

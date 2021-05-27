@@ -9,27 +9,37 @@
 <body>
     <h1>Crear nuevo registro</h1>
 
-    <form action="{{ route('mascota.store') }}" method="POST">
-    @csrf
+    <p>
+        <a href="{{ route('mascota.index') }}">Listado de mascotas</a>
+    </p>
+
+    @if(isset($mascota))
+        <form action="{{ route('mascota.update', $mascota) }}" method="POST" enctype="multipart/form-data">
+            @method('PATCH')
+    @else
+        <form action="{{ route('mascota.store') }}" method="POST" enctype="multipart/form-data">
+    @endif
+
+        @csrf
         <label for ="nombreM">Nombre de mascota: </label>
-        <input type="text" name="nombreM">
+        <input type="text" name="nombreM" value="{{ $mascota->nombreM ?? '' }}">
         <br>
         <br>
             <label for ="foto">Foto: </label>
-            <input type="file" name="foto" id="foto">
+            {{ $mascota->foto ?? '' }}
+            <input type="file" name="foto" id="foto" value="">
         <br>
         <br>
             <label for ="fecha">Ultima vez visto:</label>
-            <input type="date" name="fecha" id="fecha">
+            <input type="date" name="fecha" id="fecha" value="{{ $mascota->fecha ?? '' }}">
         <br>
         <br>
             <label for ="raza">Raza: </label>
-            <input type="text" name="raza">
+            <input type="text" name="raza" value="{{ $mascota->raza ?? '' }}">
         <br>
         <br>
             <label for ="comentario">Comentario: </label>
-            <textarea name="comentario" id="comentario" cols="40" rows="5"></textarea>
-
+            <input type="text" name="comentario" id="comentario" value="{{ $mascota->comentario ?? '' }}">
         <br>
         <br>
             <input type="submit" value="crear">
