@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserCreateRequest;
+use App\Http\Requests\UserEditRequest;
 use App\Models\Mascota;
 use Illuminate\Http\Request;
+
 
 class MascotaController extends Controller
 {
@@ -35,8 +38,17 @@ class MascotaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserCreateRequest $request)
     {
+        //validacion de formulario
+       /*  $request->validate([
+            'nombreM' => 'required',
+            'foto' => 'required',
+            'fecha' => 'required',
+            'raza' => 'required',
+            'comentario' => 'required'
+        ]); */
+
         //metodo crear registro
         $mascota = new Mascota();
 
@@ -45,6 +57,7 @@ class MascotaController extends Controller
         $mascota->raza = $request->raza;
         $mascota->comentario = $request->comentario;
         
+        //Guardar ruta de imagen en BD 
         if($request->hasFile('foto')){
             $file = $request->file('foto');
             $destinationPath = 'images/featureds/';
@@ -90,7 +103,7 @@ class MascotaController extends Controller
      * @param  \App\Models\Mascota  $mascota
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserEditRequest $request, $id)
     {
         $mascota = Mascota::find($id);
 
@@ -101,10 +114,10 @@ class MascotaController extends Controller
         
         if($request->hasFile('foto')){
             $file = $request->file('foto');
-            $destinationPath = 'images/featureds/';
-            $filename = time().'-'.$file->getClientOriginalName(); //evitar imagenes con el mismo nombre
-            $uploadSuccess = $request->file('foto')->move($destinationPath, $filename);
-            $mascota->foto = $destinationPath . $filename;
+            $destinationPath = 'images/featureds/'; //ubicamos la carpeta a guardar las imagenes
+            $filename = time().'-'.$file->getClientOriginalName(); 
+            $uploadSuccess = $request->file('foto')->move($destinationPath, $filename); 
+            $mascota->foto = $destinationPath . $filename; //concatenamos el destino con el nombre del archivo
          }
 
         $mascota->save();

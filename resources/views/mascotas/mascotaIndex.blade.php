@@ -12,8 +12,11 @@
 <body>
     <h1>listado de mascotas</h1>
 
+    
     @if(Session::has('mensaje'))
+    <div class="alert alert-success" role="alert">
         {{ Session::get('mensaje') }}
+    </div>
     @endif
     <p>
         <a href="{{ route('mascota.create') }}" class="btn btn-primary">Agregar resgistro</a>
