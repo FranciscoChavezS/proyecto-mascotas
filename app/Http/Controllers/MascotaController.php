@@ -39,16 +39,21 @@ class MascotaController extends Controller
     {
         //metodo crear registro
         $mascota = new Mascota();
+
         $mascota->nombreM = $request->nombreM;
-        $mascota->foto = $request->foto;
         $mascota->fecha = $request->fecha;
         $mascota->raza = $request->raza;
         $mascota->comentario = $request->comentario;
-        $mascota->save();
-
+        
         if($request->hasFile('foto')){
-           $mascota['foto']=$request->file('foto')->store('uploads','public');
-        }
+            $file = $request->file('foto');
+            $destinationPath = 'images/featureds/';
+            $filename = time().'-'.$file->getClientOriginalName(); //evitar imagenes con el mismo nombre
+            $uploadSuccess = $request->file('foto')->move($destinationPath, $filename);
+            $mascota->foto = $destinationPath . $filename;
+         }
+
+        $mascota->save();
 
         //Mascota::insert($request->all());
         return redirect()->route('mascota.index')->with('mensaje','Mascota agregada con éxito');
@@ -87,18 +92,27 @@ class MascotaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        /*$mascota->nombreM = $request->nombreM;
-        $mascota->foto = $request->foto;
+        $mascota = Mascota::find($id);
+
+        $mascota->nombreM = $request->nombreM;
         $mascota->fecha = $request->fecha;
         $mascota->raza = $request->raza;
         $mascota->comentario = $request->comentario;
+        
+        if($request->hasFile('foto')){
+            $file = $request->file('foto');
+            $destinationPath = 'images/featureds/';
+            $filename = time().'-'.$file->getClientOriginalName(); //evitar imagenes con el mismo nombre
+            $uploadSuccess = $request->file('foto')->move($destinationPath, $filename);
+            $mascota->foto = $destinationPath . $filename;
+         }
+
         $mascota->save();
-        */
 
-        $mascota = request()->except(['_token','_method']);
-        Mascota::where('id','=',$id)->update($mascota);
+        //$mascota = request()->except(['_token','_method']);
+        //Mascota::where('id','=',$id)->update($mascota);
 
-        $mascota = Mascota::findOrFail($id);
+        //$mascota = Mascota::findOrFail($id);
         return redirect()->route('mascota.show', $mascota);
     }
 
