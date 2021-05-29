@@ -38,7 +38,7 @@
             </tr>
         </tbody>
     </table>
-    <form action="{{ route('mascota.destroy', $mascota) }}" method="POST">
+    <form action="{{ route('mascota.destroy', $mascota) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('¿Estas seguro que deseas borrar el registro?')">
         @csrf
         @method('DELETE')
         <br>
